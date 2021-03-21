@@ -1,0 +1,42 @@
+image: gcc
+
+variables:
+  BIN_NAME: main.out
+  TEST_BIN_NAME: test.out
+
+stages:
+  - test_style
+  - build
+  - test_bin
+  - my_test_bin
+  - test_mem
+
+test_style:
+  stage: test_style
+  script:
+    - ./linters/run.sh
+
+build:
+  stage: build
+  script: 
+    - make
+  artifacts:
+    paths:
+      - ${BIN_NAME}
+      - ${TEST_BIN_NAME}
+
+test_bin:
+  stage: test_bin
+  script:
+    - ./btests/run.sh ./${BIN_NAME}
+    
+my_test_bin:
+  stage: my_test_bin
+  script:
+    - ./${TEST_BIN_NAME}
+
+test_mem:
+  stage: test_mem
+  script:
+    - apt-get update && apt-get install -y valgrind
+    - ./btests/run.sh ./${BIN_NAME} --memcheck
