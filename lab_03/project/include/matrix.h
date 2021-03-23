@@ -5,10 +5,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define OK                                      0
-#define ERR_ROWS_FILL                           (-1)
-#define ERR_COLUMNS_FILL                        (-2)
-#define ERR_GET_ELEMENT                         (-3)
+enum ret_codes {
+    ERR_GET_DET = -6,
+    ERR_FREE_MATRIX,
+    ERR_SET_ELEMENT,
+    ERR_GET_ELEMENT,
+    ERR_GET_COLS,
+    ERR_GET_ROWS,
+    OK
+};
 
 typedef struct
 {
@@ -21,7 +26,6 @@ typedef struct
 Matrix* create_matrix_from_file(const char* path_file);
 Matrix* create_matrix(size_t rows, size_t cols);
 int free_matrix(Matrix* matrix);
-void printMatrix(Matrix* matrix);
 
 // Basic operations
 int get_rows(const Matrix* matrix, size_t* rows);
