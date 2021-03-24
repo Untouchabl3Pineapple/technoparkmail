@@ -1,6 +1,6 @@
 #include "../include/matrix.h"
 
-// _________________________Init/release operations_________________________
+// _______________________Init/Out/release operations_______________________
 
 Matrix *create_matrix_from_file(const char* path_file) {
     if (path_file == NULL) {
@@ -25,7 +25,7 @@ Matrix *create_matrix_from_file(const char* path_file) {
         return NULL;
     }
 
-    if ((matrix = create_matrix(rows, columns)) == NULL) { 
+    if ((matrix = create_matrix(rows, columns)) == NULL) {
         fclose(f);
         return NULL;
     }
@@ -77,6 +77,21 @@ Matrix *create_matrix(size_t rows, size_t cols) {
     return matrix;
 }
 
+int my_print_matrix(Matrix* matrix) {
+    if (matrix == NULL) {
+        return ERR_PRINT_MATRIX;
+    }
+
+    for (size_t i = 0; i < matrix->rows; i++) {
+        for (size_t j = 0; j < matrix->columns; j++) {
+            printf("%12lf", matrix->data[i][j]);
+        }
+        printf("\n");
+    }
+
+    return OK;
+}
+
 int free_matrix(Matrix* matrix) {
     if (matrix == NULL || matrix->data == NULL) {
         return ERR_FREE_MATRIX;
@@ -89,7 +104,7 @@ int free_matrix(Matrix* matrix) {
     free(matrix->data);
 
     free(matrix);
-    
+
     return OK;
 }
 
@@ -126,7 +141,7 @@ int get_elem(const Matrix* matrix, size_t row, size_t col, double* val) {
     if (col >= matrix->columns) {
         return ERR_GET_ELEMENT;
     }
-    
+
     *val = matrix->data[row][col];
 
     return OK;
@@ -209,7 +224,7 @@ Matrix* sum(const Matrix* l, const Matrix* r) {
     if (l->rows != r->rows || l->columns != r->columns) {
         return NULL;
     }
-    
+
     Matrix *dst_matrix = create_matrix(l->rows, l->columns);
     if (dst_matrix == NULL) {
         return NULL;
@@ -220,7 +235,7 @@ Matrix* sum(const Matrix* l, const Matrix* r) {
             dst_matrix->data[i][j] = l->data[i][j] + r->data[i][j];
         }
     }
-    
+
     return dst_matrix;
 }
 
@@ -236,7 +251,7 @@ Matrix* sub(const Matrix* l, const Matrix* r) {
     if (l->rows != r->rows || l->columns != r->columns) {
         return NULL;
     }
-    
+
     Matrix *dst_matrix = create_matrix(l->rows, l->columns);
     if (dst_matrix == NULL) {
         return NULL;
@@ -247,7 +262,7 @@ Matrix* sub(const Matrix* l, const Matrix* r) {
             dst_matrix->data[i][j] = l->data[i][j] - r->data[i][j];
         }
     }
-    
+
     return dst_matrix;
 }
 
@@ -263,7 +278,7 @@ Matrix* mul(const Matrix* l, const Matrix* r) {
     if (l->columns != r->rows) {
         return NULL;
     }
-    
+
     Matrix *dst_matrix = create_matrix(l->rows, r->columns);
     if (dst_matrix == NULL) {
         return NULL;
@@ -272,7 +287,7 @@ Matrix* mul(const Matrix* l, const Matrix* r) {
     for (size_t i = 0; i < l->rows; i++) {
         for (size_t j = 0; j < r->columns; j++) {
             double summ = 0;
-            
+
             for (size_t k = 0; k < r->rows; k++) {
                 summ += l->data[i][k] * r->data[k][j];
             }
@@ -292,21 +307,25 @@ Matrix* mul(const Matrix* l, const Matrix* r) {
 */
 
 int det(const Matrix* matrix, double* val) {
-    *val = 0;
-
-    printf("%zu", matrix->rows);
+    if (matrix == NULL || val == NULL) {
+        return ERR_GET_DET;
+    }
 
     return OK;
 }
 
 Matrix* adj(const Matrix* matrix) {
-    printf("%zu", matrix->rows);
+    if (matrix == NULL) {
+        return NULL;
+    }
 
     return NULL;
 }
 
 Matrix* inv(const Matrix* matrix) {
-    printf("%zu", matrix->rows);
+    if (matrix == NULL) {
+        return NULL;
+    }
 
     return NULL;
 }

@@ -1,17 +1,20 @@
 #include "matrix.h"
 
 int main(void) {
-    Matrix *matrix, *matrix_res;
+    Matrix *matrix, *addit_matrix, *matrix_result;
+    size_t rows, columns;
+    double val;
 
     /*
-        Test 1: Init/release operations
+        Test 1: Init/Out/release operations
     */
 
     system("echo Test 1: Init/release operations");
 
-    matrix = NULL;
-
     matrix = create_matrix_from_file("project/data/test.txt");
+
+    system("echo MATRIX:");
+    my_print_matrix(matrix);
 
     free_matrix(matrix);
 
@@ -22,10 +25,6 @@ int main(void) {
     */
 
     system("echo Test 2: Creating and deleting a matrix");
-   
-    matrix = NULL;
-    size_t rows, columns;
-    double val;
 
     matrix = create_matrix_from_file("project/data/test.txt");
 
@@ -46,10 +45,123 @@ int main(void) {
         Test 3: Math operations
     */
 
-    
+    system("echo Test 3: Math operations");
 
+    // _____________________________________________________________________
 
+    val = 10.;
 
+    matrix = create_matrix_from_file("project/data/test.txt");
+
+    system("echo MUL_SCALAR BEFORE:");
+    my_print_matrix(matrix);
+    matrix_result = mul_scalar(matrix, val);
+    system("echo MUL_SCALAR AFTER:");
+    my_print_matrix(matrix_result);
+
+    free_matrix(matrix);
+    free_matrix(matrix_result);
+
+    // _____________________________________________________________________
+
+    matrix = create_matrix_from_file("project/data/test.txt");
+
+    system("echo TRANSP BEFORE:");
+    my_print_matrix(matrix);
+    matrix_result = transp(matrix);
+    system("echo TRANSP AFTER:");
+    my_print_matrix(matrix_result);
+
+    free_matrix(matrix);
+    free_matrix(matrix_result);
+
+    // _____________________________________________________________________
+
+    matrix = create_matrix_from_file("project/data/test.txt");
+
+    system("echo TRANSP BEFORE:");
+    my_print_matrix(matrix);
+    matrix_result = transp(matrix);
+    system("echo TRANSP AFTER:");
+    my_print_matrix(matrix_result);
+
+    free_matrix(matrix);
+    free_matrix(matrix_result);
+
+    // _____________________________________________________________________
+
+    matrix = create_matrix_from_file("project/data/test.txt");
+    addit_matrix = create_matrix_from_file("project/data/test.txt");
+
+    system("echo SUM FIRST MATRIX:");
+    my_print_matrix(matrix);
+    system("echo SUM SECOND MATRIX:");
+    my_print_matrix(addit_matrix);
+    matrix_result = sum(matrix, addit_matrix);
+    system("echo SUM RESULT MATRIX:");
+    my_print_matrix(matrix_result);
+
+    free_matrix(matrix);
+    free_matrix(addit_matrix);
+    free_matrix(matrix_result);
+
+    // _____________________________________________________________________
+
+    matrix = create_matrix_from_file("project/data/test.txt");
+    addit_matrix = create_matrix_from_file("project/data/test.txt");
+
+    system("echo SUB FIRST MATRIX:");
+    my_print_matrix(matrix);
+    system("echo SUB SECOND MATRIX:");
+    my_print_matrix(addit_matrix);
+    matrix_result = sub(matrix, addit_matrix);
+    system("echo SUB RESULT MATRIX:");
+    my_print_matrix(matrix_result);
+
+    free_matrix(matrix);
+    free_matrix(addit_matrix);
+    free_matrix(matrix_result);
+
+    // _____________________________________________________________________
+
+    matrix = create_matrix_from_file("project/data/test.txt");
+    addit_matrix = create_matrix_from_file("project/data/test.txt");
+
+    system("echo MUL FIRST MATRIX:");
+    my_print_matrix(matrix);
+    system("echo MUL SECOND MATRIX:");
+    my_print_matrix(addit_matrix);
+    matrix_result = mul(matrix, addit_matrix);
+    system("echo MUL RESULT MATRIX:");
+    my_print_matrix(matrix_result);
+
+    free_matrix(matrix);
+    free_matrix(addit_matrix);
+    free_matrix(matrix_result);
+
+    // _____________________________________________________________________
+
+    system("echo Done");
+
+    /*
+        Test 4: Extra operations
+    */
+
+    /*
+        Gone to save the world :)
+
+        P.S. Finish it for me :3 ples
+    */
+
+    system("echo Test 4: Extra operations");
+
+    val = 228.;
+
+    det(matrix, &val);
+    adj(matrix);
+    inv(matrix);
+
+    system("echo Done");
 
     return OK;
 }

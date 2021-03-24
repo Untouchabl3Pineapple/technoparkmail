@@ -1,12 +1,13 @@
-#ifndef _MATRIX_H_
-#define _MATRIX_H_
+#ifndef PROJECT_INCLUDE_MATRIX_H_
+#define PROJECT_INCLUDE_MATRIX_H_
 
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 enum ret_codes {
-    ERR_GET_DET = -6,
+    ERR_GET_DET = -7,
+    ERR_PRINT_MATRIX,
     ERR_FREE_MATRIX,
     ERR_SET_ELEMENT,
     ERR_GET_ELEMENT,
@@ -15,16 +16,16 @@ enum ret_codes {
     OK
 };
 
-typedef struct
-{
+typedef struct {
     double **data;
     size_t rows;
     size_t columns;
 } Matrix;
 
-// Init/release operations
+// Init/Out/release operations
 Matrix* create_matrix_from_file(const char* path_file);
 Matrix* create_matrix(size_t rows, size_t cols);
+int my_print_matrix(Matrix* matrix);
 int free_matrix(Matrix* matrix);
 
 // Basic operations
@@ -33,7 +34,7 @@ int get_cols(const Matrix* matrix, size_t* cols);
 int get_elem(const Matrix* matrix, size_t row, size_t col, double* val);
 int set_elem(Matrix* matrix, size_t row, size_t col, double val);
 
-//Math operations
+// Math operations
 Matrix* mul_scalar(const Matrix* matrix, double val);
 Matrix* transp(const Matrix* matrix);
 
@@ -46,4 +47,4 @@ int det(const Matrix* matrix, double* val);
 Matrix* adj(const Matrix* matrix);
 Matrix* inv(const Matrix* matrix);
 
-#endif //_MATRIX_H_
+#endif  // PROJECT_INCLUDE_MATRIX_H_
