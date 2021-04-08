@@ -1,6 +1,6 @@
 #include "utils.h"
 
-void actionInfo(void) {
+void action_info(void) {
     printf("%s\n%s\n%s\n%s\n",
            "please enter action",
            "1 enter data client: ",
@@ -8,7 +8,7 @@ void actionInfo(void) {
            "3 update base");
 }
 
-static void masterInfo(void) {
+static void master_info(void) {
     printf("%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n",
            "1 Number account: ",
            "2 Client name: ",
@@ -20,80 +20,80 @@ static void masterInfo(void) {
            "8 Client cash payments: ");
 }
 
-static void transactionInfo(void) {
+static void transaction_info(void) {
     printf("%s\n%s\n",
            "1 Number account: ",
            "2 Client cash payments: ");
 }
 
-static void bufFree(FILE *const buf) {
+static void buf_free(FILE *const buf) {
     for (int c = getc(buf); c != '\n' && c != EOF; c = getc(buf)) {
     }
 }
 
-void masterWrite(FILE *const src, FILE *const dst, userData_t *const Client) {
-    masterInfo();
+void master_write(FILE *const dst, FILE *const src, userdata_t *const client) {
+    master_info();
 
-    while (fscanf(src, "%12d%11s%11s%16s%20s%12lf%12lf%12lf", &Client->Number, \
-                                                        Client->Name, \
-                                                        Client->Surname, \
-                                                        Client->addres, \
-                                                        Client->TelNumber, \
-                                                        &Client->indebtedness, \
-                                                        &Client->credit_limit, \
-                                                        &Client->cash_payments) == 8) {
-        fprintf(dst, "%-12d%-11s%-11s%-16s%20s%12.2lf%12.2lf%12.2lf\n", Client->Number, \
-                                                                          Client->Name, \
-                                                                          Client->Surname, \
-                                                                          Client->addres, \
-                                                                          Client->TelNumber, \
-                                                                          Client->indebtedness, \
-                                                                          Client->credit_limit, \
-                                                                          Client->cash_payments);
+    while (fscanf(src, "%12d%11s%11s%16s%20s%12lf%12lf%12lf", &client->number, \
+                                                        client->name, \
+                                                        client->surname, \
+                                                        client->addres, \
+                                                        client->telnumber, \
+                                                        &client->indebtedness, \
+                                                        &client->credit_limit, \
+                                                        &client->cash_payments) == 8) {
+        fprintf(dst, "%-12d%-11s%-11s%-16s%20s%12.2lf%12.2lf%12.2lf\n", client->number, \
+                                                                          client->name, \
+                                                                          client->surname, \
+                                                                          client->addres, \
+                                                                          client->telnumber, \
+                                                                          client->indebtedness, \
+                                                                          client->credit_limit, \
+                                                                          client->cash_payments);
 
-        masterInfo();
+        master_info();
     }
 
-    bufFree(src);
+    buf_free(src);
 }
 
-void transactionWrite(FILE *const src, FILE *const dst, userData_t *const transfer) {
-    transactionInfo();
+void transaction_write(FILE *const dst, FILE *const src, userdata_t *const transfer) {
+    transaction_info();
 
-    while (fscanf(src, "%d%lf", &transfer->Number, &transfer->cash_payments) == 2) {
-        fprintf(dst, "%-3d%-6.2f\n", transfer->Number, transfer->cash_payments);
+    while (fscanf(src, "%d%lf", &transfer->number, &transfer->cash_payments) == 2) {
+        fprintf(dst, "%-3d%-6.2f\n", transfer->number, transfer->cash_payments);
 
-        transactionInfo();
+        transaction_info();
     }
 
-    bufFree(src);
+    buf_free(src);
 }
 
-void blackRecord(FILE *const ofPTR, FILE *const ofPTR_2, FILE *const blackrecord, \
-                 userData_t *const client_data, userData_t *const transfer) {
-    while (fscanf(ofPTR, "%12d%11s%11s%16s%20s%12lf%12lf%12lf", &client_data->Number, \
-                                                                client_data->Name, \
-                                                                client_data->Surname, \
-                                                                client_data->addres, \
-                                                                client_data->TelNumber, \
-                                                                &client_data->indebtedness, \
-                                                                &client_data->credit_limit, \
-                                                                &client_data->cash_payments) == 8) {
-        while (fscanf(ofPTR_2, "%d %lf", &transfer->Number, &transfer->cash_payments) == 2) {
-            if (client_data->Number == transfer->Number && transfer->cash_payments != 0) {
-                client_data->credit_limit += transfer->cash_payments;
+void black_record(FILE *const blackrecord, FILE *const record, FILE *const transaction, \
+                  userdata_t *const client, userdata_t *const transfer) {
+    while (fscanf(record, "%12d%11s%11s%16s%20s%12lf%12lf%12lf", &client->number, \
+                                                                client->name, \
+                                                                client->surname, \
+                                                                client->addres, \
+                                                                client->telnumber, \
+                                                                &client->indebtedness, \
+                                                                &client->credit_limit, \
+                                                                &client->cash_payments) == 8) {
+        while (fscanf(transaction, "%d %lf", &transfer->number, &transfer->cash_payments) == 2) {
+            if (client->number == transfer->number && transfer->cash_payments != 0) {
+                client->credit_limit += transfer->cash_payments;
             }
         }
 
-        fprintf(blackrecord, "%-12d%-11s%-11s%-16s%20s%12.2lf%12.2lf%12.2lf\n", client_data->Number, \
-                                                                                client_data->Name, \
-                                                                                client_data->Surname, \
-                                                                                client_data->addres, \
-                                                                                client_data->TelNumber, \
-                                                                                client_data->indebtedness, \
-                                                                                client_data->credit_limit, \
-                                                                                client_data->cash_payments);
+        fprintf(blackrecord, "%-12d%-11s%-11s%-16s%20s%12.2lf%12.2lf%12.2lf\n", client->number, \
+                                                                                client->name, \
+                                                                                client->surname, \
+                                                                                client->addres, \
+                                                                                client->telnumber, \
+                                                                                client->indebtedness, \
+                                                                                client->credit_limit, \
+                                                                                client->cash_payments);
 
-        rewind(ofPTR_2);
+        rewind(transaction);
     }
 }

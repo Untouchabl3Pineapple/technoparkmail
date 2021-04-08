@@ -4,24 +4,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define OK          0
+#include "data_struct.h"
+#include "ret_codes.h"
 
-typedef struct {
-    int Number;
-    char Name[20];
-    char Surname[20];
-    char addres[30];
-    char TelNumber[15];
-    double indebtedness;
-    double credit_limit;
-    double cash_payments;
-} userData_t;
+void action_info(void);
 
-void actionInfo(void);
-
-void masterWrite(FILE *const src, FILE *const dst, userData_t *const Client);
-void transactionWrite(FILE *const src, FILE *const dst, userData_t *const transfer);
-void blackRecord(FILE *const ofPTR, FILE *const ofPTR_2, FILE *const blackrecord, \
-                 userData_t *const client_data, userData_t *const transfer);
+void master_write(FILE *const dst, FILE *const src, userdata_t *const client);
+void transaction_write(FILE *const dst, FILE *const src, userdata_t *const transfer);
+void black_record(FILE *const blackrecord, FILE *const record, FILE *const transaction, \
+                  userdata_t *const client, userdata_t *const transfer);
 
 #endif  // PROJECT_INCLUDE_UTILS_H_
